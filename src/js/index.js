@@ -11,17 +11,19 @@ let enemyBox = makeEnemy(1);
 let i=0;
 let t=0;
 let z=0;
+main.draw();
+let data1 = hit.DescriptionPixel(main.getLocation(), ctx, 1);
+// console.log(data1);
 let callback = () => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    main.draw();
-    // let data1 = hit.DescriptionPixel(main.getLocation(), ctx, 32);
+    
     enemyBox.map(val => {
         val.draw();
         // let data2=hit.DescriptionPixel(val.getLocation(),ctx,32);
         // for(let i=0;i<data1.length;i++){
         //     for(let j=0;j<data2.length;j++){
         //         if(hit.IsHit(data1[i],data2[j])){
-        //             // console.log("碰撞");
+        //             console.log("碰撞");
         //             break;
         //         }
         //     }
@@ -39,7 +41,7 @@ let callback = () => {
     // i++;
     window.requestAnimationFrame(callback);
 }
-window.requestAnimationFrame(callback);
+// window.requestAnimationFrame(callback);
 setInterval(() => {
     if(z){
         ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
