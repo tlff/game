@@ -11,17 +11,49 @@ let enemyBox = makeEnemy(1);
 let i=0;
 let t=0;
 let z=0;
+// (()=>{
+//     const a={
+//         x:11,
+//         y:60,
+//         w:11,
+//         h:11
+//     }
+//     const b = {
+//         x: 11,
+//         y: 11,
+//         w: 10,
+//         h: 10
+//     }
+//     console.log(hit.IsHit(a,b));
+// })();
+
 let callback = () => {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    main.draw();
-    // let data1 = hit.DescriptionPixel(main.getLocation(), ctx, 32);
+    main.draw().then(()=>{
+        let data1 = hit.DescriptionPixel(main.getLocation(), ctx, 10);
+
+        console.log(data1);
+    },er=>{
+        console.log(er);
+    })
+    
+    return ;
+
+
+
+
+
+
+    let data1 = hit.DescriptionPixel(main.getLocation(), ctx, 5);
+    console.log(data1);
+    // console.log(data1);
     enemyBox.map(val => {
         val.draw();
-        // let data2=hit.DescriptionPixel(val.getLocation(),ctx,32);
+        // let data2=hit.DescriptionPixel(val.getLocation(),ctx,5);
         // for(let i=0;i<data1.length;i++){
         //     for(let j=0;j<data2.length;j++){
         //         if(hit.IsHit(data1[i],data2[j])){
-        //             // console.log("碰撞");
+        //             console.log("碰撞");
         //             break;
         //         }
         //     }
@@ -37,9 +69,10 @@ let callback = () => {
     //     i=0;   
     // }
     // i++;
-    window.requestAnimationFrame(callback);
+    // window.requestAnimationFrame(callback);
 }
-window.requestAnimationFrame(callback);
+callback();
+// window.requestAnimationFrame(callback);
 setInterval(() => {
     if(z){
         ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);

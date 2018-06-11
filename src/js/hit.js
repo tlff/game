@@ -17,24 +17,24 @@ export default class hit {
         let width = location.w;
         let height = location.h;
         let ret = [];
-        for (let i = y; i <= height + y; i += interval) {
-            for (let j = x; j <= width + x; j += interval) {
+        for (let i = y; i <= height + y - interval; i += interval) {
+            for (let j = x; j <= width + x - interval; j += interval) {
                 let data = ctx.getImageData(j, i, interval, interval).data;
-                let count = data.length / 4;
-                let flag = false;
-                for (let k = 0; k < count; k++) {
-                    if (!data[k * 4 + 3]) {
-                        flag = true;
-                    }
+                let num = 0;
+                let count = 0;
+                for (let k = 0; (k + 3) < data.length; k += 4) {
+                    num += data[k + 3];
+                    count++;
                 }
-                if (flag) {
+                let avg = num / count;
+                if (avg > 0) {
+                    console.count("aa");
                     ret.push({
                         x: j,
                         y: i,
                         w: interval,
                         h: interval
-                    })
-                    flag = false;
+                    });
                 }
             }
         }
@@ -55,13 +55,12 @@ export default class hit {
 
         let o2x = target.x + target.w / 2;
         let o2y = target.y + target.h / 2;
-
         // let dx = Math.sqrt((o1x - o2x) * (o1x - o2x) + (o1y - o2y) * (o1y - o2y));
         let dx = Math.abs(o1x - o2x);
         let dy = Math.abs(o1y - o2y);
-        if (dx <= (source.w + target.w)/2 || dy <= (source.h + target.h)/2){
+        if (dx <= (source.w + target.w) / 2 && dy <= (source.h + target.h) / 2) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
