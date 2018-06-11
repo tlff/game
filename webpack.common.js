@@ -19,12 +19,8 @@ module.exports = {
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: 8192
-                    }
-                }, {
-                    loader: 'file-loader',
-                    options: {
-                        name: './images/[hash].[ext]',
+                        limit: 8192,
+                        name: './images/[name].[hash].[ext]'
                     }
                 }]
             },
@@ -58,6 +54,6 @@ module.exports = {
     
     output: {
         filename: './js/[name].[chunkhash].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist'),
     },
 };

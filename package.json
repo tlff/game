@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "webpack  --config webpack.prod.js",
-    "start": "webpack-dev-server --inline --config webpack.dev.js",
+    "start": "webpack-dev-server --inline --config webpack.dev.js --open",
     "watch": "webpack --config webpack.watch.js --watch"
   },
   "dependencies": {
