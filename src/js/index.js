@@ -2,29 +2,17 @@ import aircraft from "./aircraft";
 import enemy from "./enemy";
 import hit from "./hit";
 import img1 from "../images/3.png"
+import img2 from "../images/4.png"
+import * as util  from "./util";
 let c1 = document.getElementById('c1');
 let c2 = document.getElementById('c2');
 let ctx = c1.getContext('2d');
 let ctx2 = c2.getContext('2d');
-// (()=>{
-//     const a={
-//         x:11,
-//         y:60,
-//         w:11,
-//         h:11
-//     }
-//     const b = {
-//         x: 11,
-//         y: 11,
-//         w: 10,
-//         h: 10
-//     }
-//     console.log(hit.IsHit(a,b));
-// })();
-getImg(img1).then(img=>{
-    
-    let main = new aircraft(ctx,img);
-    let enemyBox = makeEnemy(3,img);
+
+util.loadImg([img1, img2]).then(re=>{
+    let [img1, img2] = re;
+    let main = new aircraft(ctx,img1);
+    let enemyBox = makeEnemy(3,img1);
     let i = 0;
     let t = 0;
     let z = 0;
@@ -51,13 +39,12 @@ getImg(img1).then(img=>{
         }
         t = ti;
         if(i==60){
-            enemyBox.push(new enemy(ctx, img));
+            enemyBox.push(new enemy(ctx, img1));
             i=0;   
         }
         i++;
         window.requestAnimationFrame(callback);
     }
-    // callback();
     window.requestAnimationFrame(callback);
     setInterval(() => {
         if (z) {
@@ -81,21 +68,6 @@ function makeEnemy(count,img){
     return ret;
 }
 
-function getImg(src) {
-    return new Promise((resolve, reject) => {
-        let img = new Image();
-        img.src = src;
-        if (img.complete) {
-            resolve(img);
-            return;
-        }
-        console.log(img.complete);
-        img.onload = function () {
-            resolve(img);
-        }
-        img.onerror = function (err) {
-            reject(err);
-        }
-    })
-}
+
+
 
