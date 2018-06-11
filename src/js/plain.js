@@ -1,3 +1,4 @@
+import img1 from "../images/3.png"
 export default class plain {
     constructor(ctx) {
         this.ctx = ctx;
@@ -38,12 +39,13 @@ export default class plain {
     draw() {
         //295 219
         if (!this.img) {
-            this.getImg("/es6/src/images/3.png")
+            // console.log(img1);
+            this.getImg(img1)
                 .then(img => {
                     this.img = img;
                     this._draw();
                 }, er => {
-                    console.log(er);
+                    // console.log(er);
                 })
         } else {
             this._draw();
