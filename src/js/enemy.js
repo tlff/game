@@ -1,10 +1,9 @@
 import plain from "./plain";
 
 export default class enemy extends plain {
-    constructor(ctx) {
-        super(ctx);
+    constructor(ctx,img) {
+        super(ctx,img);
         this.left = this.random(0,this.canvas.width-this.width);
-        // this.top = this.random(-this.canvas.height / 2, this.canvas.height / 2 - this.height);
         this.top = -this.height;
         this.speed = 1;
     }
@@ -21,6 +20,29 @@ export default class enemy extends plain {
             -this.width / 2, -this.height / 2, this.width, this.height
         )
         this.ctx.restore();
+    }
+
+    getPoint() {
+        let l = this.left;
+        let t = this.top;
+        return [
+            {
+                x: l + 18,
+                y: t+2,
+                w: 4,
+                h: 38
+            }, {
+                x: l + 1,
+                y: t + 11,
+                w: 4,
+                h: 5
+            }, {
+                x: l + 35,
+                y: t + 11,
+                w: 4,
+                h: 5
+            }
+        ]
     }
 
 }
