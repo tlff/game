@@ -4,7 +4,7 @@ export default class aircraft extends plain {
     constructor(ctx, img) {
         super(ctx, img);
         this.bulletBox = [];
-        this.shotInterval = 400;//射击间隔 毫秒
+        this.shotInterval = 200;//射击间隔 毫秒
         this.bindEvent();
     }
     bindEvent() {

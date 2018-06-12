@@ -2,7 +2,7 @@ import plain from "./plain";
 export default class bullet extends plain{
     constructor(ctx,img){
         super(ctx,img);
-        this.speed=2;
+        this.speed=10;
         this.width=4;
         this.height=4;
         // this.left=400;

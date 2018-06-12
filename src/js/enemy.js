@@ -5,7 +5,7 @@ export default class enemy extends plain {
         super(ctx,img);
         this.left = this.random(0,this.canvas.width-this.width);
         this.top = -this.height;
-        this.speed = 1;
+        this.speed = 3;
     }
     random(min,max) {
         return Math.floor(Math.random() * (max - min + 1) + min);
