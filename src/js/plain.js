@@ -1,4 +1,3 @@
-
 export default class plain {
     constructor(ctx, img) {
         this.ctx = ctx;
@@ -11,6 +10,8 @@ export default class plain {
         this.left = this.canvas.width / 2 - this.width / 2;
         this.top = this.canvas.height - this.height - 20;
         this.speed = 10;
+        this.damage = false; //是否损坏了
+        this.shotInterval = 1000;//射击间隔 毫秒
     }
     getLocation() {
         return {
@@ -18,6 +19,35 @@ export default class plain {
             y: this.top,
             w: this.width,
             h: this.height
+        }
+    }
+    isOutBounds() {
+        if (this.left < -this.width || this.left > this.canvas.width || this.top < -this.height || this.top > this.canvas.height) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+    /**
+     * 设置位置
+     * @param {object} location 
+     * {
+     * left:"",
+     * top:""
+     * }
+     */
+    setLocation(location) {
+        this.left = location.left;
+        this.top = location.top;
+        return this;
+    }
+    inBullet(attack) {
+        this.hp -= attack;
+        if (this.hp <= 0) {
+            this.damage = true;
+        } else {
+            this.damage = false;
         }
     }
     status(key, val) {
@@ -40,11 +70,9 @@ export default class plain {
         return this._draw();
     }
     _draw() {
-        this.l ? this.left -= this.speed : "";
-        this.t ? this.top -= this.speed : "";
-        this.r ? this.left += this.speed : "";
-        this.d ? this.top += this.speed : "";
-
+        if (!this.damage) {
+            return;
+        }
         this.ctx.drawImage(this.img,
             0, 0, this.img.width, this.img.height,
             this.left, this.top, this.width, this.height

@@ -1,7 +1,10 @@
 import plain from "./plain";
+import bullet from "./bullet";
 export default class aircraft extends plain {
     constructor(ctx, img) {
         super(ctx, img);
+        this.bulletBox = [];
+        this.shotInterval = 400;//射击间隔 毫秒
         this.bindEvent();
     }
     bindEvent() {
@@ -13,6 +16,65 @@ export default class aircraft extends plain {
             let code = ev.keyCode;
             this.status(code, true);
         }
+    }
+    _draw() {
+        if (this.l) {
+            if (this.left > 0) {
+                this.left -= this.speed;
+            } else {
+                this.left = 0;
+            }
+        }
+        if (this.t) {
+            if (this.top > 0) {
+                this.top -= this.speed;
+            } else {
+                this.top = 0;
+            }
+        }
+        if (this.r) {
+            if (this.left < this.canvas.width - this.width) {
+                this.left += this.speed;
+            } else {
+                this.left = this.canvas.width - this.width;
+            }
+        }
+        if (this.d) {
+            if (this.top < this.canvas.height - this.height) {
+                this.top += this.speed;
+            } else {
+                this.top = this.canvas.height - this.height;
+            }
+        }
+        this.ctx.drawImage(this.img,
+            0, 0, this.img.width, this.img.height,
+            this.left, this.top, this.width, this.height
+        )
+        this.bulletBox=this.bulletBox.filter((val)=>{
+            return !val.isOutBounds()&&!val.damage;
+        });
+        this.bulletBox.map(val=>{
+            val.draw();
+        })
+    }
+    addBullet(img) {
+        return setInterval(() => {
+            let left = {
+                left: this.left + 3,
+                top: this.top + 20
+            }
+            let right = {
+                left: this.left+32,
+                top: this.top+20
+            }
+            let bullet1 = new bullet(this.ctx, img);
+            let bullet2 = new bullet(this.ctx, img);
+            bullet1.setLocation(left);
+            bullet2.setLocation(right);
+            this.bulletBox.push(bullet1);
+            this.bulletBox.push(bullet2);
+        }, this.shotInterval);
+
     }
     getPoint() {
         let l = this.left;
