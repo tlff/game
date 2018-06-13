@@ -16,6 +16,7 @@ let startbtn = document.getElementById("start");
 
 util.loadImg([img1, img2]).then(re => {
     let isOver = true;
+    let ispause = false;
     let [img1, img2] = re;
 
     let main = new aircraft(ctx, img1);
@@ -24,6 +25,7 @@ util.loadImg([img1, img2]).then(re => {
     let t = 0;  //上一帧的事件
     let z = 0;  //两帧之间的间隔
     let life = 10;  //生命值
+    let score=0;
     let addbullet = main.addBullet(img2);
 
     function init() {
@@ -35,6 +37,8 @@ util.loadImg([img1, img2]).then(re => {
         life = 10;
         addbullet = main.addBullet(img2);
         isOver = false
+        ispause=false;
+        score=0;
     }
 
 
@@ -46,7 +50,8 @@ util.loadImg([img1, img2]).then(re => {
             if (val.isOutBounds()) {
                 life -= 1;
                 if (life <= 0) {
-                    isOver=true;
+                    over();
+                    // isOver = true;
                 }
             }
             return !val.isOutBounds() && !val.damage;
@@ -58,7 +63,8 @@ util.loadImg([img1, img2]).then(re => {
             for (let i = 0; i < data1.length; i++) {
                 for (let j = 0; j < data2.length; j++) {
                     if (hit.IsHit(data1[i], data2[j])) {
-                        isOver=true;
+                        // isOver = true;
+                        over();
                         break;
                     }
                 }
@@ -69,6 +75,7 @@ util.loadImg([img1, img2]).then(re => {
                 for (let j = 0; j < data2.length; j++) {
                     if (hit.IsHit(tmp[0], data2[j])) {
                         val.damage = true;
+                        score++;
                         // val.inBullet(el.attack);
                         el.damage = true;
                         break;
@@ -88,7 +95,7 @@ util.loadImg([img1, img2]).then(re => {
             i = 0;
         }
         i++;
-        if (!isOver) {
+        if (!isOver && !ispause) {
             window.requestAnimationFrame(callback);
         }
     }
@@ -99,6 +106,7 @@ util.loadImg([img1, img2]).then(re => {
     }
     function bindEvent() {
         restart.onclick = () => {
+            ispause=false;
             if (!isOver) {
                 init();
             } else {
@@ -107,7 +115,7 @@ util.loadImg([img1, img2]).then(re => {
 
         }
         pause.onclick = () => {
-            isOver = true;
+            ispause = true;
         }
         end.onclick = () => {
             init();
@@ -116,7 +124,11 @@ util.loadImg([img1, img2]).then(re => {
         startbtn.onclick = () => {
             if (isOver) {
                 start();
+            }else if (ispause){
+                ispause=false;
+                window.requestAnimationFrame(callback);
             }
+            
         }
     }
     bindEvent();
@@ -132,19 +144,32 @@ util.loadImg([img1, img2]).then(re => {
             ctx2.fillStyle = "Red";
             ctx2.fillText("生命值:" + life, 600, 40, 200);
         }
-        if(isOver){
+        if (!isOver) {
+            ctx2.font = "italic 35px 黑体";
+            ctx2.fillStyle = "Red";
+            ctx2.fillText("分数:" + score, 400, 40, 200);
+        }
+        if (isOver) {
             ctx2.font = "italic 55px 黑体";
             ctx2.fillStyle = "Red";
-            ctx2.fillText("游戏结束", 300, 300, 200);   
+            ctx2.fillText("游戏结束", 300, 300, 200);
+            return;
         }
+        if (ispause) {
+            ctx2.font = "italic 55px 黑体";
+            ctx2.fillStyle = "Red";
+            ctx2.fillText("暂停", 300, 300, 200);
+            return;
+        }
+        
     }, 100);
 
     function over() {
-        // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
-        ctx2.font = "italic 55px 黑体";
-        ctx2.fillStyle = "Red";
-        ctx2.fillText("游戏结束", 300, 300, 200);
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // ctx2.clearRect(0, 0, ctx2.canvas.width, ctx2.canvas.height);
+        // ctx2.font = "italic 55px 黑体";
+        // ctx2.fillStyle = "Red";
+        // ctx2.fillText("游戏结束", 300, 300, 200);
         // clearInterval(fps);
         // clearInterval(addbullet);
         isOver = true;
